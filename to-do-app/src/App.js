@@ -26,6 +26,7 @@ class App extends Component {
     }
     this.addItem = this.addItem.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
+    this.editItem = this.editItem.bind(this)
   }
 
   addItem (itemText) {
@@ -42,24 +43,36 @@ class App extends Component {
   }
 
   deleteItem (index) {
-    console.log(index)
     const items = this.state.items.slice()
-    console.log('items before splice', items.slice())
     items.splice(index, 1)
-    console.log('items', items)
     this.setState({
       items: items
     })
   }
 
+  editItem (index, newText) {
+    // object.assign copies the whole state (at the highest level) into a new object (editingState) for manipulation
+    let editingState = Object.assign({}, this.state)
+    // copies array of objects within state
+    editingState.items = editingState.items.slice()
+    // copies editing object within the array
+    editingState.items[index] = Object.assign({}, editingState.items[index])
+    // edits the target
+    editingState.items[index].text = newText
+    let newState = editingState.items
+    // updates state to new copy of the state
+    this.setState({
+      items: newState
+    })
+  }
+
   render () {
-    console.log('Apps State', this.state)
     return (
       <div className='App'>
         <CreateItem items={this.state.items} addItem={this.addItem} />
         {this.state.items.map((item, idx) =>
           <ToDoItem key={`${item.text}${idx}`} index={idx} text={item.text} completed={item.completed} isEditing={item.isEditing}
-            deleteItem={this.deleteItem} />
+            deleteItem={this.deleteItem} editItem={this.editItem} />
         ) }
 
       </div>
