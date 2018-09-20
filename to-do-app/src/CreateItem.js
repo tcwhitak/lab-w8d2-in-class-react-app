@@ -10,7 +10,6 @@ class CreateItem extends Component {
   }
 
   updateText (event) {
-    console.log('you updated the text')
     this.setState({
       text: event.target.value
     })
@@ -24,7 +23,6 @@ class CreateItem extends Component {
   }
 
   render () {
-    console.log('CreateItem State', this.state)
     return (
       <div className='CreateItem'>
         <input onChange={(event) => this.updateText(event)} value={this.state.text} />

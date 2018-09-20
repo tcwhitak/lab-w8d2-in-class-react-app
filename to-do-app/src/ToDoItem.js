@@ -14,12 +14,13 @@ class ToDoItem extends Component {
     this.setState({ isEditing: true })
   }
 
-  finishEdit () {
+  finishEdit (newText) {
+    const index = this.props.index
+    this.props.editItem(index, newText)
     this.setState({ isEditing: false })
   }
 
   updateText (event) {
-    console.log('you updated the text')
     this.setState({
       text: event.target.value
     })
@@ -34,19 +35,13 @@ class ToDoItem extends Component {
             <div>
               {this.state.text}
             </div>
-            <div>
-              {this.state.isEditing.toString()}
-            </div>
-            <div>
-              {this.state.completed.toString()}
-            </div>
             <button onClick={() => { this.startEdit() }}>edit</button>
             <button onClick={() => { this.props.deleteItem(this.props.index) }}>delete</button>
           </div>
 
           : <div>
             <input onChange={(event) => this.updateText(event)} value={this.state.text} />
-            <button onClick={() => { this.finishEdit() }}>Done</button>
+            <button onClick={() => { this.finishEdit(this.state.text) }}>Done</button>
           </div>
 
         }
